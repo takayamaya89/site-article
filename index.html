@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Протокол Внедрения ИИ — Майя Галицкая</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #000000;
+      --dark: #0a0a0a;
+      --dark2: #111111;
+      --dark3: #1a1a1a;
+      --green: #39ff14;
+      --green-dim: #2bc910;
+      --green-dark: #0d5c00;
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-light: #cccccc;
+      --border: #222222;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ===== UTILITY ===== */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .neon-text {
+      color: var(--green);
+      text-shadow: 0 0 8px var(--green), 0 0 20px var(--green-dim);
+    }
+
+    .highlight-box {
+      border: 2px solid var(--green);
+      background: rgba(57, 255, 20, 0.04);
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin: 32px 0;
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.1);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 60px 0;
+    }
+
+    .divider-green {
+      border: none;
+      border-top: 2px solid var(--green);
+      margin: 48px 0;
+      box-shadow: 0 0 10px var(--green);
+    }
+
+    /* ===== HEADER / HERO ===== */
+    .hero {
+      background: var(--black);
+      padding: 80px 0 60px;
+      border-bottom: 2px solid var(--green);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at top center, rgba(57, 255, 20, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: var(--green);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 span {
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green);
+    }
+
+    .hero-sub {
+      font-size: 20px;
+      color: var(--gray-light);
+      max-width: 640px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* ===== PAIN SECTION ===== */
+    .pain-section {
+      padding: 72px 0;
+      background: var(--dark);
+    }
+
+    .pain-list {
+      list-style: none;
+      margin: 28px 0;
+    }
+
+    .pain-list li {
+      padding: 14px 0 14px 32px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      font-size: 18px;
+      color: var(--gray-light);
+    }
+
+    .pain-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section-number {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    h2 {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    h2 .accent {
+      color: var(--green);
+      text-shadow: 0 0 12px var(--green-dim);
+    }
+
+    h3 {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    h3 .accent {
+      color: var(--green);
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      color: var(--gray-light);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    p strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-dark {
+      padding: 72px 0;
+      background: var(--dark2);
+    }
+
+    .section-darker {
+      padding: 72px 0;
+      background: var(--dark3);
+    }
+
+    /* ===== MEME IMAGES ===== */
+    .meme-container {
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .meme-img {
+      width: 100%;
+      max-width: 480px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      display: inline-block;
+      box-shadow: 0 0 30px rgba(57, 255, 20, 0.08);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .meme-img:hover {
+      box-shadow: 0 0 40px rgba(57, 255, 20, 0.2);
+    }
+
+    /* ===== QUOTE BLOCK ===== */
+    .big-quote {
+      border-left: 4px solid var(--green);
+      padding: 24px 32px;
+      margin: 40px 0;
+      background: rgba(57, 255, 20, 0.03);
+    }
+
+    .big-quote p {
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.5;
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* ===== PROTOCOL STAGES ===== */
+    .stage-card {
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      padding: 36px;
+      margin: 32px 0;
+      background: var(--dark2);
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .stage-card:hover {
+      border-color: var(--green);
+    }
+
+    .stage-number {
+      position: absolute;
+      top: -18px;
+      left: 28px;
+      background: var(--green);
+      color: var(--black);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      padding: 4px 14px;
+      text-transform: uppercase;
+    }
+
+    /* ===== CHECKLIST ===== */
+    .checklist {
+      list-style: none;
+      margin: 20px 0;
+    }
+
+    .checklist li {
+      padding: 10px 0 10px 36px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      color: var(--gray-light);
+      font-size: 16px;
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    /* ===== CASE STUDY ===== */
+    .case-study {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--green);
+      padding: 36px;
+      margin: 40px 0;
+      border-radius: 0 0 4px 4px;
+    }
+
+    .case-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .case-stat {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green-dim);
+      line-height: 1;
+      margin: 8px 0;
+    }
+
+    .case-stat-label {
+      font-size: 13px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      margin: 24px 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .timeline-day {
+      min-width: 70px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--green);
+      padding-top: 2px;
+    }
+
+    .timeline-text {
+      color: var(--gray-light);
+      font-size: 16px;
+    }
+
+    /* ===== PRICING ===== */
+    .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    .pricing-row:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-label {
+      font-size: 16px;
+      color: var(--gray-light);
+      flex: 1;
+    }
+
+    .pricing-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ff6b6b;
+      white-space: nowrap;
+      opacity: 0.9;
+    }
+
+    .pricing-total {
+      text-align: center;
+      padding: 36px;
+      background: var(--dark3);
+      border: 2px solid var(--border);
+      margin: 32px 0;
+    }
+
+    .pricing-total .old-price {
+      font-size: 22px;
+      color: #ff6b6b;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .pricing-total .new-price {
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 30px var(--green), 0 0 60px var(--green-dim);
+      line-height: 1;
+    }
+
+    .pricing-total .price-label {
+      font-size: 14px;
+      color: var(--gray);
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* ===== NEON BUTTON ===== */
+    .btn-neon {
+      display: inline-block;
+      background: var(--green);
+      color: var(--black);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 48px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px var(--green), 0 0 40px rgba(57, 255, 20, 0.4), 0 0 80px rgba(57, 255, 20, 0.2);
+      animation: neon-pulse 2s ease-in-out infinite;
+    }
+
+    .btn-neon:hover {
+      background: var(--white);
+      box-shadow: 0 0 30px var(--green), 0 0 60px rgba(57, 255, 20, 0.6), 0 0 100px rgba(57, 255, 20, 0.3);
+      transform: translateY(-2px);
+    }
+
+    @keyframes neon-pulse {
+      0%, 100% {
+        box-shadow: 0 0 20px var(--green), 0 0 40px rgba(57, 255, 20, 0.4), 0 0 80px rgba(57, 255, 20, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 30px var(--green), 0 0 60px rgba(57, 255, 20, 0.6), 0 0 100px rgba(57, 255, 20, 0.3);
+      }
+    }
+
+    .btn-wrapper {
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .btn-wrapper .btn-note {
+      display: block;
+      font-size: 13px;
+      color: var(--gray);
+      margin-top: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== OBJECTIONS ===== */
+    .objection-block {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .objection-q {
+      background: var(--dark3);
+      padding: 20px 24px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white);
+      border-left: 3px solid var(--green);
+    }
+
+    .objection-a {
+      padding: 20px 24px;
+      background: var(--dark2);
+      color: var(--gray-light);
+      font-size: 16px;
+    }
+
+    /* ===== GUARANTEE ===== */
+    .guarantee-box {
+      border: 2px solid var(--green);
+      padding: 40px;
+      text-align: center;
+      background: rgba(57, 255, 20, 0.03);
+      box-shadow: 0 0 40px rgba(57, 255, 20, 0.08);
+      margin: 40px 0;
+    }
+
+    .guarantee-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    /* ===== ASSETS LIST ===== */
+    .assets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .asset-item {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+
+    .asset-item:hover {
+      border-color: var(--green);
+    }
+
+    .asset-item h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .asset-item p {
+      font-size: 13px;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    /* ===== AUTHOR ===== */
+    .author-section {
+      padding: 72px 0;
+      background: var(--dark);
+      border-top: 2px solid var(--green);
+    }
+
+    .author-name {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .author-title {
+      font-size: 14px;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      font-size: 14px;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    .footer a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    /* ===== STICKY CTA ===== */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.95);
+      border-top: 2px solid var(--green);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .sticky-cta .price-tag {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 10px var(--green);
+    }
+
+    .sticky-cta .btn-neon {
+      padding: 14px 36px;
+      font-size: 14px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .assets-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .sticky-cta {
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 16px;
+      }
+
+      .stage-card {
+        padding: 28px 20px;
+      }
+
+      .highlight-box {
+        padding: 20px;
+      }
+
+      .big-quote {
+        padding: 20px;
+      }
+
+      .case-study {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-label">Важно прочитать до конца</span>
+    <h1>Если ИИ не даёт<br /><span>денег / заявок / времени</span><br />— значит ты внедрил<br />инструменты, а не систему</h1>
+    <p class="hero-sub">Сейчас ты прочитаешь вещь, которая одновременно <strong>успокоит и разозлит.</strong></p>
+  </div>
+</section>
+
+<!-- ===== PAIN CHECK ===== -->
+<section class="pain-section">
+  <div class="container">
+    <p>Если ты уже пробовал ИИ, но:</p>
+    <ul class="pain-list">
+      <li>сохранил десятки «топ-промптов», но используешь 2–3</li>
+      <li>скачал гайды, а руки так и не дошли</li>
+      <li>открыл ChatGPT → потыкал → закрыл</li>
+      <li>ускорился по мелочам, но в деньгах ничего не изменилось</li>
+      <li>стал делать больше задач, но легче не стало</li>
+      <li>у тебя куча идей, но нет ощущения контроля</li>
+    </ul>
+
+    <div class="highlight-box">
+      <p style="font-size: 20px; font-weight: 700; color: var(--white); margin: 0;">…это нормально.</p>
+    </div>
+
+    <p>Это будет <strong>самая полезная статья для тебя</strong> и вот почему:</p>
+    <p>Она убережет тебя от трат времени и денег на ненужные инструменты!</p>
+    <p>Если хотя бы пару пунктов совпадают, то тебе <strong>обязательно нужно дочитать до конца.</strong></p>
+
+    <div class="meme-container">
+      <img src="images/meme1.png" alt="Мем: сохраняю 100 AI инструментов, использую Google" class="meme-img" />
+    </div>
+
+    <p>Ты чувствуешь, что «поезд уходит» и вроде надо срочно внедрять ИИ, но непонятно что именно.</p>
+    <p>Ты тратишь время на инструменты, а результата в выручке нет.</p>
+    <p>Ты думаешь: <strong>«Наверное, я не технарь».</strong><br />Хотя на самом деле проблема не в этом.</p>
+    <p>Ты устал от хаоса: сервисов много, инструкций много, курсов много, а процессов нет.</p>
+
+    <div class="big-quote">
+      <p>Ты не получаешь результат от ИИ не потому, что плохо пишешь промпты. А потому что тебе показывали инструменты, а тебе нужна <span class="neon-text">система внедрения.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== UNCOMFORTABLE TRUTH ===== -->
+<section class="section">
+  <div class="container">
+
+    <h2>Есть одна <span class="accent">неприятная правда</span></h2>
+
+    <p>Посмотри честно на свой последний год.</p>
+    <p>Сколько времени ты потратил на изучение нейросетей? Сколько роликов посмотрел? Сколько курсов прошёл? Сколько сервисов попробовал?</p>
+
+    <ul class="checklist">
+      <li>ChatGPT</li>
+      <li>Midjourney</li>
+      <li>Runway</li>
+      <li>Claude</li>
+      <li>Gemini</li>
+      <li>Perplexity</li>
+      <li>десятки генераторов и автоматизаций</li>
+    </ul>
+
+    <p>Ты сохранял:</p>
+    <ul class="pain-list">
+      <li>«100 промптов для маркетолога»</li>
+      <li>«50 сервисов для заработка на AI»</li>
+      <li>«10 способов заработать на ChatGPT»</li>
+    </ul>
+
+    <p>Каждый раз было ощущение: <strong>«Вот это интересно… надо попробовать.»</strong></p>
+
+    <div class="highlight-box">
+      <p style="font-size: 22px; font-weight: 900; color: var(--white); margin: 0; text-align: center;">Но проходит время. <span class="neon-text">РЕЗУЛЬТАТ — НОЛЬ!</span></p>
+    </div>
+
+    <p>И приходит неприятное осознание:</p>
+    <p>Ты постоянно что-то изучаешь. Но:</p>
+    <ul class="pain-list">
+      <li>деньги те же</li>
+      <li>клиентов больше не стало</li>
+      <li>бизнес не вырос</li>
+    </ul>
+
+    <div class="meme-container">
+      <img src="images/meme2.png" alt="Мем: беговая дорожка — смотришь туториалы, доход $0" class="meme-img" />
+    </div>
+
+    <div class="big-quote">
+      <p>Ты словно на беговой дорожке. <span class="neon-text">Движение есть. Результата нет.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NOT YOUR FAULT ===== -->
+<section class="section-dark">
+  <div class="container">
+
+    <h2>Дело <span class="accent">не в тебе</span></h2>
+    <h3>Главная проблема рынка обучения AI</h3>
+
+    <p>Большинство курсов учат не той вещи. Они учат пользоваться инструментами. Дают 100+ нейронок и промтов, показывают WOW-эффекты, многие из них даже не заморачиваются обучить тебя реальным нейронкам, а дают ботов, где уже собраны шаблоны.</p>
+
+    <div class="highlight-box">
+      <p style="font-size: 18px; font-weight: 700; color: var(--white); margin: 0;">Но <span class="neon-text">ПРАКТИЧЕСКИ НИКТО</span> не учит строить систему внедрения ИИ.</p>
+    </div>
+
+    <p>Это как учить человека пользоваться:</p>
+    <ul class="checklist">
+      <li>дрелью</li>
+      <li>шуруповёртом</li>
+      <li>уровнем</li>
+      <li>болгаркой</li>
+    </ul>
+
+    <div class="meme-container">
+      <img src="images/meme3.png" alt="Мем: знает все инструменты, дом не появится никогда" class="meme-img" />
+    </div>
+
+    <p>…и при этом не объяснить, как построить дом. Он будет знать инструменты. <strong>Но дом не появится НИКОГДА.</strong></p>
+
+    <p>И главное: тебя не учили отвечать на единственный вопрос, который приносит деньги:</p>
+
+    <div class="big-quote">
+      <p><span class="neon-text">"КАКОЙ ПРОЦЕСС Я МЕНЯЮ В БИЗНЕСЕ/ПРОЕКТЕ И КАК ИИ ДАСТ ИЗМЕРИМЫЙ ЭФФЕКТ?"</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT CHANGES RESULTS ===== -->
+<section class="section">
+  <div class="container">
+
+    <h2>ОК, а что тогда <span class="accent">на самом деле</span> меняет результат?</h2>
+
+    <p>Я понимаю твоё разочарование. Когда-то я сама оказалась в той же точке.</p>
+    <p>Я гналась за инструментами. Сохраняла новые сервисы. Смотрела обзоры. Покупала гайды. Тратила всё больше времени, сил и денег. И жила в постоянной тревоге, что опаздываю. Что где-то уже есть «та самая нейросеть», которую я ещё не попробовала.</p>
+    <p>А в итоге происходило только одно. Я выгорала. И в какой-то момент я столкнулась с вещью, которая меня по-настоящему шокировала.</p>
+    <p>Когда я начала изучать, как создаются многомиллионные стартапы в Силиконовой долине, оказалось, что большинство людей там… <strong>вообще не знают и половины нейросетей</strong>, о которых постоянно говорят в инфопространстве.</p>
+
+    <ul class="checklist">
+      <li>Они не изучают «100 лучших AI-сервисов».</li>
+      <li>Они не гоняются за каждым новым инструментом.</li>
+      <li>Они действуют намного тоньше.</li>
+    </ul>
+
+    <p>Они берут свои существующие навыки, опыт, экспертизу — и <strong>усиливают их инструментами искусственного интеллекта.</strong></p>
+
+    <div class="big-quote">
+      <p>Проблема не в том, что ты не знаешь все нейросети. Проблема в том, что тебе никто не показал <span class="neon-text">как встроить ИИ в свою систему работы.</span></p>
+    </div>
+
+    <p>Не нужно знать все инструменты. Важно понимать куда, в какой процесс и какую нейросеть поставить, чтобы она усилила тебя в 10–20 раз.</p>
+    <p>Когда ты начинаешь смотреть на ИИ именно так, происходит магия. Нейросети перестают быть набором игрушек. И превращаются в <strong>архитектуру усиления человека.</strong></p>
+    <p>И именно из этого понимания родился</p>
+
+    <div class="highlight-box">
+      <h3 style="text-align: center; font-size: clamp(22px, 4vw, 36px); margin-bottom: 0;"><span class="accent">ПРОТОКОЛ ВНЕДРЕНИЯ ИИ.</span></h3>
+    </div>
+
+    <p>Протокол внедрения ИИ — это не набор сервисов и не список «100 нейросетей, которые нужно попробовать». Это <strong>пошаговая система внедрения</strong>, которая встраивает искусственный интеллект прямо в процессы твоей работы и превращает его в реальное усиление.</p>
+
+    <p>В результате ИИ начинает работать как:</p>
+    <ul class="checklist">
+      <li><strong>цифровая команда</strong> — чтобы разгрузить голову, снять операционку и выгрузить своё мышление в систему, которая думает вместе с тобой;</li>
+      <li><strong>контент-машина</strong> — чтобы масштабировать присутствие, создавать поток контента без выгорания и постоянно привлекать внимание аудитории;</li>
+      <li><strong>нейроворонка и автоматизация процессов</strong> — чтобы внимание, трафик и интерес системно превращались в заявки и деньги.</li>
+    </ul>
+
+    <p>Другими словами, ИИ перестаёт быть игрушкой. <strong>Он становится частью твоей рабочей архитектуры.</strong></p>
+  </div>
+</section>
+
+<!-- ===== WHERE YOU LOSE MONEY ===== -->
+<section class="section-darker">
+  <div class="container">
+
+    <h2>Где ты теряешь <span class="accent">деньги</span> прямо сейчас</h2>
+
+    <p>Самое неприятное в этой истории то, что потери происходят незаметно.</p>
+
+    <div class="stage-card">
+      <span class="stage-number">Предприниматель</span>
+      <p style="margin-top: 12px;">Ты теряешь деньги в ручных процессах, хаосе задач и дорогих командах, которые делают работу медленно и нестабильно.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Эксперт</span>
+      <p style="margin-top: 12px;">Деньги утекают в отсутствие системы контента и прогрева. Сегодня есть пост — завтра нет. Сегодня есть охваты — завтра тишина.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Специалист</span>
+      <p style="margin-top: 12px;">Ты теряешь деньги, потому что делаешь работу дольше, чем мог(ла) бы, и берёшь меньше, чем стоит твой реальный потенциал.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Руководитель / PM</span>
+      <p style="margin-top: 12px;">Деньги исчезают в хаосе задач, отсутствии стандартов, бесконечных согласованиях и ручном контроле.</p>
+    </div>
+
+    <div class="big-quote">
+      <p>Все эти проблемы выглядят разными. Но на самом деле у них <span class="neon-text">одна и та же причина. Отсутствие системы.</span></p>
+    </div>
+
+    <p>И протокол внедрения ИИ закрывает эту проблему одним механизмом, просто с разными точками входа.</p>
+  </div>
+</section>
+
+<!-- ===== PROTOCOL ===== -->
+<section class="section">
+  <div class="container">
+
+    <h2>Протокол внедрения — это <span class="accent">три этапа</span>, один не существует без другого!</h2>
+
+    <p>Все они создают систему, благодаря которой ты становишься в 10 раз мощнее и на 5 шагов опережаешь конкурентов!</p>
+
+    <div class="highlight-box">
+      <p style="font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px;">Внедряя протокол никто не изучает "Лучшие промпты по версии того самого ИИИксперта"</p>
+      <p style="margin: 0; color: var(--gray-light);">Здесь важно понять <strong>САМУ СИСТЕМУ!</strong></p>
+    </div>
+
+    <p>Инструменты меняются очень быстро, а <strong>СИСТЕМУ можно наложить на любой процесс/проект/бизнес.</strong></p>
+
+    <div class="big-quote">
+      <p><span class="neon-text">ЭТО ВАЖНЫЙ РАЗВОРОТ МЫШЛЕНИЯ!</span></p>
+    </div>
+
+    <p>Я Хочу, чтобы вы поняли именно структуру!</p>
+
+    <div class="highlight-box" style="text-align: center;">
+      <p style="font-size: 22px; font-weight: 900; color: var(--white); margin: 0;">ИТАК:<br /><span class="neon-text">Шлем к черту всю «теорию про нейросети».</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STAGE 1 ===== -->
+<section class="section-dark">
+  <div class="container">
+    <span class="section-number">Этап 1</span>
+    <h2>«Оцифруй голову»</h2>
+    <h3>Личный бизнес‑ассистент + команда ассистентов за <span class="accent">60–90 минут</span> настройки</h3>
+
+    <p>На этом важном этапе нужно выгрузить своё мышление в нейросеть. Обучить её и сделать своим лучшим помощником!</p>
+    <p>Чтобы ИИ перестал быть "тупым тапочком" тебе важно: настроить память, рассказать ему о себе и своих проектах.</p>
+    <p>А дальше применить <strong>СЕКРЕТНЫЙ инструмент:</strong> "НАКОРМИТЬ" свой ИИ лучшей и уникальной информацией профессионалов со всего мира и дать ему инструкции как и когда применять эту информацию.</p>
+
+    <div class="big-quote">
+      <p>Давай проще: представь, что <span class="neon-text">Илон МАСК, Дональд Трамп, Тим Кук и Марк Цукерберг</span>, собрались на твоей кухне и 24/7 консультируют тебя, дают советы на основе своего мышления, своих личных побед и поражений!</p>
+    </div>
+
+    <p>А другая команда, состоящая из: личного маркетолога, личного бухгалтера, личного SMM-специалиста и личного ассистента, готовы 24/7 решать твои вопросы и знают всё о тебе и твоих проектах!</p>
+
+    <div class="meme-container">
+      <img src="images/meme7.png" alt="Мем: один человек — команда из 10" class="meme-img" />
+    </div>
+
+    <p>Имея протокол, ты получаешь: <strong>личный бизнес‑ассистент + команда ассистентов за 60–90 минут настройки.</strong></p>
+
+    <div class="highlight-box">
+      <p style="font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 0;"><strong>Ключевой прорыв:</strong> ИИ перестает быть "чужим" и начинает работать <span class="neon-text">как сотрудник</span>, потому что ты даёшь ему контекст, правила и роль.</p>
+    </div>
+
+    <h4>Вот что важно сделать на первом этапе внедрения:</h4>
+    <ul class="checklist">
+      <li>собрать <strong>ядро контекста</strong> (что именно "скормить" ИИ, чтобы он говорил твоим языком и понимал бизнес)</li>
+      <li>настроить <strong>личного бизнес‑ассистента</strong>: планирование, анализ, подготовка, контроль, «второй мозг»</li>
+      <li>собирать <strong>команду ассистентов по ролям</strong> (не "один чатик на всё", а 5–7 узких спецов)</li>
+      <li>освоить промпт‑логику, которая даёт качество "как у топ‑специалиста", а не шаблонный текст</li>
+    </ul>
+
+    <div class="highlight-box">
+      <p style="font-size: 17px; color: var(--gray-light); margin: 0;"><strong>Эффект:</strong> минус рутина, плюс скорость, плюс качество решений. Это база, на которой строятся следующие 2 уровня.</p>
+    </div>
+
+    <!-- CASE STUDY 1 -->
+    <div class="case-study">
+      <div class="case-label">Реальный пример</div>
+      <h3>Запуск продукта за три дня</h3>
+      <p>Предприниматель — эксперт в финансах, хотел запустить первый мини-инфопродукт.</p>
+      <p>Обычно процесс выглядит так:</p>
+      <ul class="pain-list">
+        <li>анализ аудитории: 1–2 недели</li>
+        <li>исследование конкурентов: 1 неделя</li>
+        <li>разработка программы: 2–3 недели</li>
+        <li>создание воронки продаж: 2–4 недели</li>
+        <li>написание продающих текстов: 1–2 недели</li>
+      </ul>
+      <p><strong>Итого: от 7 до 12 недель минимум.</strong> Большинство экспертов на этом этапе сдаются. Или откладывают запуск «на потом».</p>
+      <p>Что произошло с ним? Он использовал систему ИИ-ассистентов.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-day">День 1</span>
+          <span class="timeline-text">Ассистент-аналитик провёл анализ рынка. Исследовал конкурентов, нашёл незакрытые боли аудитории, сформировал карту позиционирования.</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-day">День 2</span>
+          <span class="timeline-text">Ассистент-стратег разработал структуру продукта. Предложил три варианта программы под разные сегменты аудитории, с разными ценовыми точками.</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-day">День 3</span>
+          <span class="timeline-text">Ассистент-копирайтер написал продающий текст, цепочку писем и сценарии для вебинара.</span>
+        </div>
+      </div>
+      <div class="case-stat">840 000 ₽</div>
+      <div class="case-stat-label">Первый запуск. Три дня против 10–12 недель.</div>
+      <p>Не потому что он был умнее других. Не потому что у него был больший бюджет. А потому что у него была <strong>система.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STAGE 2 ===== -->
+<section class="section">
+  <div class="container">
+    <span class="section-number">Этап 2</span>
+    <h2>«Оцифруй присутствие»</h2>
+    <h3>Стратегия взрывного роста + <span class="accent">омниканальность</span> без выгорания</h3>
+
+    <p>Если первый этап превращает нейросети в твою цифровую команду, то второй этап решает другую проблему — <strong>масштаб твоего присутствия.</strong></p>
+    <p>Дело в том, что большинство предпринимателей и экспертов понимают одну простую вещь: без контента сегодня невозможно строить бизнес. Контент — это и охваты, и доверие, и клиенты. Но есть парадокс. Почти все знают, что он нужен, и почти все делают его неправильно.</p>
+    <p>Контент создаётся в режиме стресса. Сегодня есть вдохновение — выходит пост. Завтра нет времени — всё останавливается. И в итоге происходит знакомая история: неделя активности, потом тишина, потом снова попытка «вернуться в блог».</p>
+    <p>Алгоритмы на это реагируют просто — они перестают продвигать тебя. Аудитория постепенно остывает. Новые люди не приходят.</p>
+    <p>И вот тут большинство начинает думать, что проблема в идеях или в креативности.</p>
+    <p>Но на самом деле проблема не в этом. Проблема в том, что контент создаётся вручную, а не системой.</p>
+    <p>Когда ты внедряешь второй уровень протокола, происходит очень важный сдвиг. Ты перестаёшь быть человеком, который «иногда делает контент», и становишься владельцем контент-машины.</p>
+
+    <div class="meme-container">
+      <img src="images/meme8.png" alt="Мем: без контент-машины vs 1 идея = 16 постов" class="meme-img" />
+    </div>
+
+    <h4>Как это выглядит на практике?</h4>
+    <p>Сначала нейросеть начинает выполнять работу аналитика. Она смотрит, что происходит в твоей нише: какие темы набирают охваты, какие вопросы задаёт аудитория, какие форматы работают у конкурентов. На основе этого анализа формируется список тем — не абстрактных вроде «поговорим про маркетинг», а конкретных: с углом подачи, эмоциональным триггером и прогнозируемым интересом аудитории.</p>
+    <p>Дальше происходит следующий шаг. На основе этих тем создаётся материал. Но самое интересное начинается потом.</p>
+    <p>Один материал начинает масштабироваться.</p>
+    <p>Представь, что ты записал одно видео — обычный десятиминутный разбор темы. В обычной ситуации оно так и останется одним видео. Но в системе протокола этот материал становится источником целой серии контента. Из него появляется пост. Потом сценарий короткого ролика. Потом карусель. Потом сторис. Потом письмо для рассылки. Потом статья.</p>
+    <p>Один смысл превращается в десять–шестнадцать единиц контента для разных платформ.</p>
+    <p>И вот здесь происходит второй ключевой прорыв. Контент больше не зависит от твоего настроения. Он не зависит от вдохновения и не зависит от того, есть ли у тебя время.</p>
+    <p>Система продолжает работать.</p>
+    <p>И когда это происходит, начинается то, чего большинство людей никогда не видят — регулярный рост аудитории.</p>
+    <p>Контент выходит стабильно. Люди начинают приходить. Возникают новые касания с брендом. Но в этот момент появляется следующий вопрос.</p>
+    <p>Контент создаёт внимание.</p>
+    <p>А что превращает внимание в деньги?</p>
+    <p>Ответ — третий уровень.
+  </div>
+</section>
+
+<!-- ===== STAGE 3 ===== -->
+<section class="section-dark">
+  <div class="container">
+    <span class="section-number">Этап 3</span>
+    <h2>«Оцифруй деньги»</h2>
+    <h3>Нейроворонка и <span class="accent">автоматизация CJM</span></h3>
+
+    <p>Большинство людей никогда не доходит до этого этапа. Они застревают на уровне генерации текстов и картинок. Создают посты, ролики, статьи — и ждут, что контент сам начнёт продавать.</p>
+
+    <div class="big-quote">
+      <p>Контент создаёт интерес. <span class="neon-text">Продажи создаёт система пути клиента.</span></p>
+    </div>
+
+    <p>Именно поэтому третий этап протокола — это построение нейроворонки.</p>
+    <p>Нейроворонка — это система, которая превращает интерес в последовательность шагов. Она понимает, кто перед тобой, какую задачу решает человек, на каком этапе он находится, и ведёт его дальше.</p>
+
+    <div class="meme-container">
+      <img src="images/meme4.png" alt="Мем: без системы vs с системой" class="meme-img" />
+    </div>
+
+    <p>Представь типичную ситуацию. Человек видит твой контент. Ему становится интересно. Он переходит по ссылке или пишет кодовое слово. И вместо хаотичного общения начинается система.</p>
+    <p>Бот приветствует его. Задаёт несколько вопросов. Понимает, что за человек перед ним: новичок, специалист, предприниматель, человек с конкретной проблемой или просто любопытный читатель. На основе этого система предлагает ему нужный материал — не случайный, а тот, который соответствует его ситуации.</p>
+    <p>Дальше происходит серия касаний. Через пару дней человек получает следующий полезный материал. Потом кейс. Потом разбор типичной ошибки. И в какой-то момент появляется предложение — не внезапное, а логичное продолжение всего пути.</p>
+    <p>Это и есть нейро воронка.Точнее, один из ее вариантов</p>
+    <p>В моем проекте построена целая паутина нейро воронок, они соединяются, усиливают друг друга и все это представлено в виде структуры гибридных ботов на ИИ.</p>
+    <p>Она работает круглосуточно. Она отвечает людям тогда, когда они пишут. Она не теряет заявки. Она не забывает про клиентов.</p>
+
+    <div class="big-quote">
+      <p>И в какой-то момент происходит третий ключевой сдвиг. Ты перестаешь надеяться, что «контент когда-нибудь продаст». Ты создаешь систему, где <span class="neon-text">продажа становится естественным финалом пути клиента.</span></p>
+    </div>
+
+    <h4>Ключевой прорыв:</h4>
+    <p>Ты перестаёшь надеяться, что «контент продаст», и собираешь путь клиента так, чтобы продажа стала логическим финалом.</p>
+
+    <h4>Что ты сделаешь на уроке:</h4>
+    <ul class="checklist">
+      <li>соберёшь Customer Journey Map</li>
+      <li>настроишь сегментацию аудитории</li>
+      <li>соберёшь механику прогрева</li>
+      <li>получишь примеры нейроворонок</li>
+    </ul>
+
+    <h4>Что у тебя будет на выходе:</h4>
+    <ul class="checklist">
+      <li>схема нейроворонки</li>
+      <li>логика сообщений</li>
+      <li>карта автоматизации</li>
+    </ul>
+
+    <div class="highlight-box">
+      <p style="color: var(--gray-light); margin: 0;"><strong>Эффект:</strong> трафик и внимание перестают быть красивыми цифрами и начинают превращаться в деньги.</p>
+    </div>
+
+    <!-- CASE STUDY 3 -->
+    <div class="case-study">
+      <div class="case-label">Кейс — Онлайн-школа</div>
+      <h3>4 300 000 рублей и одна воронка</h3>
+      <p>Эксперт в нише нутрициологии. Запуски делала дважды в год. Каждый раз — стресс, выгорание, команда, реклама.</p>
+      <p>Цикл:</p>
+      <ul class="pain-list">
+        <li>3 месяца готовишься</li>
+        <li>2 недели запускаешься</li>
+        <li>1 месяц отдыхаешь</li>
+        <li>потом всё сначала</li>
+      </ul>
+      <p>После внедрения нейроворонки всё изменилось. Воронка начала работать постоянно. Новые подписчики попадали в автоматическую прогревающую последовательность.</p>
+      <ul class="checklist">
+        <li>Серия сообщений</li>
+        <li>Ценность</li>
+        <li>Кейсы</li>
+        <li>Закрытие возражений</li>
+        <li>Через 7–14 дней — предложение</li>
+      </ul>
+      <div class="case-stat">4 300 000 ₽</div>
+      <div class="case-stat-label">выручки за 6 месяцев</div>
+      <ul class="checklist" style="margin-top: 16px;">
+        <li>Без запусков</li>
+        <li>Без вебинаров</li>
+        <li>Без выгорания</li>
+      </ul>
+      <p style="margin-top: 16px;"><strong>Продажи происходят каждый день.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHEN ALL THREE WORK ===== -->
+<section class="section">
+  <div class="container">
+
+    <h2>Когда три уровня <span class="accent">работают вместе</span></h2>
+
+    <p>Вот здесь и происходит главный эффект протокола.</p>
+
+    <div class="stage-card">
+      <span class="stage-number">Уровень 1</span>
+      <p style="margin-top: 12px;"><strong>Цифровая команда</strong> ускоряет мышление и решения.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Уровень 2</span>
+      <p style="margin-top: 12px;"><strong>Контент-машина</strong> масштабирует присутствие.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Уровень 3</span>
+      <p style="margin-top: 12px;"><strong>Нейроворонка</strong> превращает внимание в деньги.</p>
+    </div>
+
+    <p>Когда эти три уровня соединяются, происходит то, что я называю <strong>масштабированием присутствия.</strong></p>
+
+    <div class="meme-container">
+      <img src="images/meme5.png" alt="Мем: беговая дорожка — движение есть, результата нет" class="meme-img" />
+    </div>
+
+    <p>Ты один. Или с небольшой командой. Но по эффективности ты начинаешь выглядеть как <strong>компания из десяти человек.</strong></p>
+    <p>Не потому что стал(а) работать больше. А потому что рядом с тобой появляется цифровая команда, которая усиливает каждое твоё действие.</p>
+
+    <p>Ты создаешь контент быстрее, чем целые отделы маркетинга. И я сейчас говорю не только про сторис или посты. Я говорю про любой тип контента: социальные сети, статьи, сценарии видео, презентации, выступления, лендинги, рассылки, аналитические материалы. Одна идея — и из неё рождается целая система материалов.</p>
+    <p>Ты отвечаешь клиентам быстрее, чем отделы продаж. Потому что у тебя уже есть структура ответов, сценарии диалогов, логика обработки возражений и система подготовки предложений.</p>
+    <p>Ты принимаешь решения быстрее, чем конкуренты. Потому что рядом с тобой всегда есть аналитик, стратег и ассистент — только не в виде сотрудников, а в виде интеллектуальной системы, которая работает вместе с тобой.</p>
+
+    <div class="big-quote">
+      <p>Снаружи ты остаёшься одним человеком. Но по скорости, объёму и качеству работы ты начинаешь выглядеть как <span class="neon-text">полноценная команда.</span></p>
+    </div>
+
+    <div class="highlight-box" style="text-align: center;">
+      <p style="font-size: 22px; font-weight: 900; color: var(--white); margin: 0;"><span class="neon-text">ИИ — не заменит людей!</span><br />Это усилитель человека.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BONUS ===== -->
+<!-- ===== TWO PATHS ===== -->
+<section class="section-darker" id="workshop">
+  <div class="container">
+
+    <h2>И если твой вопрос — <span class="accent">«КАК научиться?»</span></h2>
+
+    <p>…значит ты движешься в абсолютно верном направлении.</p>
+    <p>Ответов всего два.</p>
+
+    <div class="stage-card">
+      <span class="stage-number">Путь 1 — Самостоятельно</span>
+      <p style="margin-top: 12px;">Внимательно прочитай ещё раз эту статью. Подумай. Переложи всё на свой проект. Разбери процессы. И начинай внедрять это поэтапно.</p>
+      <p>Это возможно. Но, честно говоря, именно на этом этапе большинство людей и останавливается. Потому что система понятна концептуально, но собрать её в реальности без опыта — намного сложнее.</p>
+    </div>
+
+    <div class="stage-card" style="border-color: var(--green); box-shadow: 0 0 20px rgba(57,255,20,0.1);">
+      <span class="stage-number" style="background: var(--green);">Путь 2 — Воркшоп</span>
+      <p style="margin-top: 12px;">Собрать эту систему на воркшопе <strong>«Протокол внедрения ИИ».</strong></p>
+      <p>Это три урока + обучающие материалы + стратегическая сессия + карта внедрения протокола ИМЕННО В ТВОЙ БИЗНЕС.</p>
+      <p><strong>Ты не найдёшь ничего подобного на рынке.</strong></p>
+      <p>Потому что в этой системе я объединила:</p>
+      <ul class="checklist">
+        <li>свой 15-летний опыт маркетинга</li>
+        <li>подходы стартапов со всего мира</li>
+        <li>практику внедрения ИИ в реальные проекты</li>
+      </ul>
+      <p>и перевела всё это на максимально простой язык, в понятную и удобную систему внедрения.</p>
+      <p>Плюс — я протестировала каждую связку на себе и на клиентах, прежде чем показать её тебе.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT'S INSIDE ===== -->
+<section class="section">
+  <div class="container">
+
+    <h2>Что внутри <span class="accent">(3 урока = 3 «рывка»)</span></h2>
+    <p>после которых ИИ становится системой</p>
+
+    <div class="highlight-box">
+      <p style="font-size: 18px; font-weight: 700; color: var(--white); margin: 0;">Ты не получишь «теорию про нейросети». Ты получишь <span class="neon-text">механизм + шаблоны + сборку под себя</span>, чтобы после просмотра можно было сделать буквально в тот же день.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Урок 1</span>
+      <h3>«Оцифруй голову»</h3>
+      <p>Личный бизнес-ассистент + команда ассистентов за 60–90 минут настройки</p>
+      <p><strong>Ключевой прорыв:</strong> ИИ перестаёт быть "чужим" и начинает работать как сотрудник, потому что ты даёшь ему контекст, правила и роль.</p>
+      <h4>Что ты сделаешь на уроке:</h4>
+      <ul class="checklist">
+        <li>соберёшь ядро контекста (что именно "скормить" ИИ, чтобы он говорил твоим языком и понимал бизнес)</li>
+        <li>настроишь личного бизнес-ассистента: планирование, анализ, подготовка, контроль, «второй мозг»</li>
+        <li>соберёшь команду ассистентов по ролям (не "один чатик на всё", а 5–7 узких специалистов)</li>
+        <li>освоишь промпт-логику, которая даёт качество как у топ-специалиста, а не шаблонный текст</li>
+      </ul>
+      <h4>Что у тебя будет на выходе (осязаемо):</h4>
+      <ul class="checklist">
+        <li>шаблон «Паспорт проекта» (контекст для ИИ)</li>
+        <li>набор ролей ассистентов: Маркетолог / Аналитик / Стратег / Копирайтер / Продажник / PM</li>
+        <li>чек-лист «как понимать, что ИИ делает норму, а не мусор»</li>
+      </ul>
+      <p><strong>Эффект:</strong> минус рутина, плюс скорость, плюс качество решений. Это база, на которой строятся следующие два уровня системы.</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Урок 2</span>
+      <h3>«Оцифруй присутствие»</h3>
+      <p>Стратегия взрывного роста + омниканальность без выгорания</p>
+      <p><strong>Ключевой прорыв:</strong> ты перестаёшь быть "создателем контента" и становишься владельцем контент-системы, где один смысл превращается в поток.</p>
+      <h4>Что ты сделаешь на уроке:</h4>
+      <ul class="checklist">
+        <li>выберешь позиционирование и угол, чтобы контент вёл к заявкам, а не к лайкам</li>
+        <li>проведёшь быстрый анализ ЦА и конкурентов через ИИ (без "женщина 25–35")</li>
+        <li>соберёшь «паутины контента» — матрицу тем, форматов и каналов</li>
+        <li>получишь технологию: 1 единица → 16 единиц контента</li>
+        <li>построишь «тёплую комнату», куда переводить аудиторию, чтобы продажи стали возможны</li>
+      </ul>
+      <h4>Что у тебя будет на выходе:</h4>
+      <ul class="checklist">
+        <li>контент-план на 14 дней под твою цель</li>
+        <li>шаблон матрицы омниканальности</li>
+        <li>список контент-триггеров, которые создают спрос</li>
+      </ul>
+      <p><strong>Эффект:</strong> стабильно растёт аудитория и количество входящих касаний. Без состояния: «сегодня я в ресурсе» или «сегодня я ничего не выложил».</p>
+    </div>
+
+    <div class="stage-card">
+      <span class="stage-number">Урок 3</span>
+      <h3>«Оцифруй деньги»</h3>
+      <p>Нейроворонка и автоматизация CJM</p>
+      <p><strong>Ключевой прорыв:</strong> ты перестаёшь надеяться, что «контент продаст», и собираешь путь клиента так, чтобы продажа стала логическим финалом.</p>
+      <h4>Что ты сделаешь на уроке:</h4>
+      <ul class="checklist">
+        <li>соберёшь Customer Journey Map</li>
+        <li>настроишь сегментацию аудитории</li>
+        <li>соберёшь механику прогрева</li>
+        <li>получишь примеры нейроворонок</li>
+      </ul>
+      <h4>Что у тебя будет на выходе:</h4>
+      <ul class="checklist">
+        <li>схема нейроворонки</li>
+        <li>логика сообщений</li>
+        <li>карта автоматизации</li>
+      </ul>
+      <p><strong>Эффект:</strong> трафик и внимание перестают быть красивыми цифрами и начинают превращаться в деньги.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ASSETS ===== -->
+<section class="section-dark">
+  <div class="container">
+
+    <h2>Активы, которые <span class="accent">ты забираешь</span></h2>
+
+    <div class="assets-grid">
+      <div class="asset-item">
+        <h4>Личный бизнес-ассистент</h4>
+        <p>настройка + что загрузить + как ставить задачи</p>
+      </div>
+      <div class="asset-item">
+        <h4>Команда ассистентов по ролям</h4>
+        <p>Маркетинг / Аналитика / Стратегия / Копирайт / Продажи / PM</p>
+      </div>
+      <div class="asset-item">
+        <h4>Паспорт проекта</h4>
+        <p>контекст, чтобы ИИ работал "как ты" + чек-лист качества</p>
+      </div>
+      <div class="asset-item">
+        <h4>Контент-план на 14 дней</h4>
+        <p>матрица омниканальности + технология «1 → 16 единиц контента»</p>
+      </div>
+      <div class="asset-item">
+        <h4>Схема нейроворонки</h4>
+        <p>рост подписчиков → тёплая комната → заявка</p>
+      </div>
+      <div class="asset-item">
+        <h4>Карта внедрения на 7–14 дней</h4>
+        <p>что сделать первым, чтобы эффект был быстрым</p>
+      </div>
+    </div>
+
+    <div class="meme-container">
+      <img src="images/meme6.png" alt="Мем: когда ИИ стал системой, а не игрушкой" class="meme-img" />
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section">
+  <div class="container">
+    <span class="section-number">10 — Стоимость</span>
+    <h2>Сколько на самом деле <span class="accent">стоит эта система</span></h2>
+
+    <p>Давай на секунду честно разложим, что именно ты получаешь. Потому что это не «три урока про нейросети». Это <strong>система внедрения ИИ в бизнес</strong>, которую обычно собирают годами.</p>
+    <p>Вот из чего она состоит.</p>
+
+    <div class="stage-card">
+      <div class="pricing-row">
+        <span class="pricing-label"><strong>Стратегическая модель внедрения ИИ в бизнес</strong><br /><small style="color: var(--gray);">как перестроить процессы, выгрузить мышление в систему, построить цифровую команду</small></span>
+        <span class="pricing-value">20 000 – 50 000 ₽</span>
+      </div>
+      <div class="pricing-row">
+        <span class="pricing-label"><strong>Система создания ИИ-ассистентов и команды ролей</strong><br /><small style="color: var(--gray);">Маркетолог, Аналитик, Стратег, Копирайтер, Продажник, PM</small></span>
+        <span class="pricing-value">15 000 – 30 000 ₽</span>
+      </div>
+      <div class="pricing-row">
+        <span class="pricing-label"><strong>Система контент-машины и омниканального роста</strong><br /><small style="color: var(--gray);">Контент-стратегия + система масштабирования контента</small></span>
+        <span class="pricing-value">10 000 – 25 000 ₽</span>
+      </div>
+      <div class="pricing-row">
+        <span class="pricing-label"><strong>Система нейроворонки и автоматизации пути клиента</strong><br /><small style="color: var(--gray);">CJM, логика прогрева, автоматизация касаний</small></span>
+        <span class="pricing-value">15 000 – 40 000 ₽</span>
+      </div>
+      <div class="pricing-row">
+        <span class="pricing-label"><strong>Карта внедрения системы именно под твой проект</strong><br /><small style="color: var(--gray);">Самая ценная часть — система применена к твоему бизнесу</small></span>
+        <span class="pricing-value">10 000 – 30 000 ₽</span>
+      </div>
+    </div>
+
+    <div class="pricing-total">
+      <div class="old-price">Рыночная стоимость: 60 000 — 170 000 ₽</div>
+      <div class="new-price">1 900 ₽</div>
+      <div class="price-label">Стоимость воркшопа</div>
+    </div>
+
+    <div class="btn-wrapper">
+      <a href="https://s.salebot.pro//workshop_ai_1" class="btn-neon">Забрать систему</a>
+      <span class="btn-note">Мгновенный доступ после оплаты</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BONUS ===== -->
+<section class="section-dark">
+  <div class="container">
+    <div class="bonus-block">
+      <h2 style="color: var(--green); text-shadow: 0 0 10px var(--green);">БОНУС, КОТОРЫЙ ОДИН СТОИТ ДОРОЖЕ ВСЕГО ВОРКШОПА</h2>
+      
+      <p>Каждый участник воркшопа получает персональный стратегический разбор проекта и индивидуальную маршрутную карту роста.</p>
+      <p>Это не "поговорить о бизнесе".</p>
+      <p>Это полноценная стратегическая сессия, на которой мы разберём ваш проект так, как обычно разбирают компании перед масштабированием.</p>
+      
+      <h4 style="margin-top: 28px;">На созвоне мы вместе:</h4>
+      <ul class="checklist">
+        <li>найдём где именно сейчас утекают деньги в вашем маркетинге и продажах</li>
+        <li>определим 1–3 действия, которые могут резко увеличить выручку</li>
+        <li>построим чёткую маршрутную карту внедрения, чтобы вы понимали, что делать по шагам</li>
+      </ul>
+      
+      <h4 style="margin-top: 28px;">Вместо каши из идей вы получите:</h4>
+      <p><strong>конкретный план роста вашего проекта.</strong></p>
+      
+      <h4 style="margin-top: 28px;">Что это значит на практике:</h4>
+      <p>вы выходите с созвона, открываете ноутбук и точно знаете, какие действия дадут результат быстрее всего.</p>
+      <p><strong>Без догадок.</strong></p>
+      <p><strong>Без "попробую и посмотрим".</strong></p>
+      <p><strong>Без хаотичного маркетинга.</strong></p>
+      <p><strong>Только понятная система действий.</strong></p>
+      
+      <div class="big-quote" style="margin-top: 32px;">
+        <p>И давайте честно.</p>
+        <p>Обычно такие стратегические разборы стоят десятки тысяч рублей.</p>
+        <p>Здесь вы получаете его в подарок просто за участие в воркшопе.</p>
+      </div>
+      
+      <p style="margin-top: 28px;">По сути вы оплачиваете воркшоп — и получаете личную стратегию для своего проекта.</p>
+      
+      <div class="highlight-box" style="margin-top: 28px;">
+        <p>Если у вас есть бизнес, блог или экспертный проект — <span class="neon-text">этот бонус один уже окупает участие многократно.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY SO CHEAP ===== -->
+<section class="section-darker">
+  <div class="container">
+    <span class="section-number">11 — Честность</span>
+    <h2>И здесь возникает логичный вопрос. <span class="accent">Почему так дёшево?</span></h2>
+
+    <p>Потому что сейчас моя цель — не заработать на этом продукте. Моя цель — чтобы как можно больше людей начали внедрять систему.</p>
+    <p>Но есть ещё одна причина. И она довольно честная.</p>
+
+    <div class="highlight-box">
+      <h3 style="text-align: center; margin-bottom: 16px;"><span class="accent">У меня есть шкурный интерес</span></h3>
+      <p style="color: var(--gray-light); margin: 0;">Я хочу собрать очень сильную команду. Моя цель — создать большую систему людей, которые умеют внедрять ИИ-протоколы в бизнесы. Причём не в маленькие проекты. Я говорю про крупные компании и серьёзные бизнесы.</p>
+    </div>
+
+    <p>Но такие команды не собираются по резюме. Их находят по мышлению и результатам. Поэтому эта цена — это ещё и <strong>фильтр.</strong></p>
+    <p>Когда через систему проходит большое количество людей, очень быстро становится понятно:</p>
+    <ul class="checklist">
+      <li>кто просто посмотрел</li>
+      <li>кто поигрался</li>
+      <li>а кто реально начал внедрять</li>
+    </ul>
+    <p>И среди них появляются те самые бриллианты. Люди, которые: быстро думают, быстро внедряют, быстро получают результат.</p>
+    <p>Конечно, не все из вас захотят работать со мной. Кто-то пришёл просто посмотреть. Кто-то хочет применить систему в своём бизнесе. И это нормально. Но низкая цена позволяет мне очень быстро находить сильных людей.</p>
+
+    <div class="btn-wrapper">
+      <a href="#offer" class="btn-neon">Это то, что мне нужно</a>
+      <span class="btn-note">Воркшоп «Протокол внедрения ИИ»</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OBJECTIONS ===== -->
+<section class="section">
+  <div class="container">
+    <span class="section-number">12 — Возражения</span>
+    <h2>А теперь <span class="accent">моё любимое…</span></h2>
+
+    <div class="objection-block">
+      <div class="objection-q">«Это слишком сложно»</div>
+      <div class="objection-a">Сложно, когда изучаешь хаотично. Когда есть система — ты просто делаешь: шаг 1, шаг 2, шаг 3. И всё собирается.</div>
+    </div>
+
+    <div class="objection-block">
+      <div class="objection-q">«Мне нужно быть программистом»</div>
+      <div class="objection-a">Нет. Большинство инструментов работают без кода и достаточно телефона. Чат-боты — визуально. Автоматизации — drag-and-drop. ИИ-ассистенты — через текст. 85% людей, внедривших систему, не имеют технического образования.</div>
+    </div>
+
+    <div class="objection-block">
+      <div class="objection-q">«У меня нет времени»</div>
+      <div class="objection-a">Система нужна именно для того, чтобы появилось время. После внедрения люди экономят десятки часов в месяц.</div>
+    </div>
+
+    <div class="objection-block">
+      <div class="objection-q">«Я уже пробовал нейросети — не работает»</div>
+      <div class="objection-a">Ты пробовал инструмент, а не систему. Инструмент без системы почти всегда даёт слабый результат.</div>
+    </div>
+
+    <div class="objection-block">
+      <div class="objection-q">«Это только для крупных компаний»</div>
+      <div class="objection-a">Наоборот. Крупные компании внедряют такие системы годами и за миллионы. Один человек может собрать их за несколько недель.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GUARANTEE ===== -->
+<section class="section-dark">
+  <div class="container">
+    <span class="section-number">13 — Гарантия</span>
+    <h2>То, что <span class="accent">не даёт никто</span></h2>
+
+    <div class="guarantee-box">
+      <div class="guarantee-icon">🛡</div>
+      <h3 style="margin-bottom: 16px;">Гарантия возврата</h3>
+      <p style="font-size: 18px; color: var(--white);">Я гарантирую, что тебе понравится этот воркшоп. Если вдруг информация окажется для тебя бесполезной — я верну тебе деньги без вопросов. <strong>Полный возврат.</strong></p>
+      <hr style="border-color: var(--border); margin: 24px 0;" />
+      <p style="color: var(--gray);">Но есть нюанс. Если ты оформляешь возврат — это означает 100% блокировку твоего аккаунта, почты и номера телефона, и ты больше никогда не сможешь купить мои продукты. Почему? Потому что я хочу работать с людьми, которые действительно хотят внедрять систему, а не просто посмотреть из любопытства.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="section">
+  <div class="container">
+    <span class="section-number">14 — Решение</span>
+    <h2>И теперь <span class="accent">вопрос простой.</span></h2>
+
+    <p>Ты можешь продолжать:</p>
+    <ul class="pain-list">
+      <li>разбираться в нейросетях хаотично</li>
+      <li>тратить месяцы на эксперименты</li>
+      <li>смотреть десятки роликов</li>
+    </ul>
+
+    <div class="big-quote">
+      <p>или за <span class="neon-text">1 900 рублей</span> получить систему, на сборку которой у большинства людей уходят годы.</p>
+    </div>
+
+    <div class="pricing-total">
+      <div class="old-price">Рыночная стоимость: до 170 000 ₽</div>
+      <div class="new-price">1 900 ₽</div>
+      <div class="price-label">Воркшоп «Протокол внедрения ИИ»</div>
+    </div>
+
+    <div id="offer" class="btn-wrapper">
+      <a href="https://s.salebot.pro//workshop_ai_1" class="btn-neon">Забрать систему</a>
+      <span class="btn-note">Мгновенный доступ · Гарантия возврата</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUTHOR ===== -->
+<section class="author-section">
+  <div class="container">
+    <span class="section-number">Об авторе</span>
+    <div class="author-name">Майя Галицкая</div>
+    <div class="author-title">Практикующий маркетолог · 15 лет опыта</div>
+
+    <p>Кстати, если мы с тобой ещё не знакомы — давай быстро это исправим.</p>
+    <p>Меня зовут Майя Галицкая, и я практикующий маркетолог уже 15 лет. Я начала заниматься маркетингом задолго до того, как это стало модным словом из каждого второго блога.</p>
+    <p>За это время я успела пройти почти весь путь внутри бизнеса: от производства рекламы и операционного маркетинга до построения сложных бизнес-систем, где маркетинг соединяется с процессами, автоматизацией и теперь — с искусственным интеллектом.</p>
+    <p>Пять лет я руководила собственным SMM-агентством, выступала спикером на международных форумах, преподавала в университетах — ДГТУ, ЮФУ, РАНХиГС — работала преподавателем в крупных онлайн-школах, тренером программ MBA и выступала в предпринимательских клубах, где средний оборот компаний начинается от 50 миллионов рублей в год. Но, если честно, всё это не самое важное.</p>
+    <p>Самое важное в том, что я не просто знаю инструменты. Я работаю в интегративном подходе, где соединяются три вещи: маркетинг, бизнес-процессы и нейросети. И именно на пересечении этих трёх вещей сегодня строятся самые быстрые системы роста. Я использую нейросети с 2022 года — в тот момент, когда о них ещё почти никто не говорил всерьёз. Тогда, когда я рассказывала о применении ИИ в маркетинге и бизнесе, многие буквально крутили пальцем у виска. Сегодня эти же технологии становятся новой базой для бизнеса.</p>
+    <p>Весь прошлый год я посвятила одной задаче: собрать систему внедрения ИИ в реальные проекты. Не теоретическую модель, не красивую презентацию, а работающую систему. За этот год я шесть раз поменяла свою бизнес-модель. Шесть. Для большинства компаний даже одно изменение стратегии занимает месяцы и сопровождается хаосом. Шесть изменений за год практически невозможно пережить без инструментов, которые позволяют быстро анализировать, тестировать и принимать решения. И именно здесь нейросети дали главное преимущество — скорость. Скорость анализа данных, скорость создания решений, скорость тестирования гипотез. Когда эта скорость появляется, бизнес начинает двигаться совсем по-другому.</p>
+    <p>Эта система уже принесла серьёзные результаты — в моих проектах и в проектах клиентов. Но самое интересное впереди. Потому что сейчас эта система только начинает масштабироваться, и в этом году я планирую увеличить эти результаты минимум в три раза. И именно ту систему, которую я собирала, тестировала, ломала и пересобирала весь прошлый год, ты только что увидел в этой статье.</p>
+    <p>Если тебе интересно посмотреть, как это выглядит не в теории, а в реальной работе — как я применяю нейросети каждый день, как строю маркетинговые системы, как тестирую гипотезы и как это превращается в реальные бизнес-результаты — ты можешь познакомиться со мной ближе в социальных сетях. Найти меня очень просто: Instagram и Telegram — <strong><a href="https://t.me/takaya_maya" style="color: var(--green);">@takaya_maya</a></strong>. Там я показываю не «мотивацию» и не инфошум, а реальные внедрения, реальные эксперименты и реальные системы, которые работают. Если тебе откликается всё, о чём ты только что прочитал, скорее всего, нам будет о чём поговорить.</p>
+
+    <div class="btn-wrapper">
+      <a href="https://s.salebot.pro//workshop_ai_1" class="btn-neon">Забрать систему</a>
+      <span class="btn-note">@takaya_maya в Instagram и Telegram</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2025 Майя Галицкая · Протокол внедрения ИИ · <a href="https://t.me/takaya_maya">@takaya_maya</a></p>
+  </div>
+</footer>
+
+<!-- ===== STICKY CTA ===== -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="https://s.salebot.pro//workshop_ai_1" class="btn-neon">Забрать систему</a>
+</div>
+
+<script>
+  // Hide sticky CTA when user is near the buy buttons
+  const stickyCta = document.getElementById('stickyCta');
+  const buyBtns = document.querySelectorAll('.btn-wrapper');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        stickyCta.style.opacity = '0';
+        stickyCta.style.pointerEvents = 'none';
+      } else {
+        stickyCta.style.opacity = '1';
+        stickyCta.style.pointerEvents = 'auto';
+      }
+    });
+  }, { threshold: 0.5 });
+
+  buyBtns.forEach(btn => observer.observe(btn));
+
+  stickyCta.style.transition = 'opacity 0.3s ease';
+</script>
+
+</body>
+</html>
